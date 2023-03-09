@@ -1,67 +1,41 @@
-#include <iostream>
-#include <cmath>
-#include <vector>
-#include <limits.h>
-using namespace std;
-
-int main() {
-    vector <int> nums1 = {12,15}; 
-    vector <int> nums2 = {1,2,3,4,5,6,7,8,9};
-    vector<int> A = nums1.size() < nums2.size() ? nums1 : nums2;
-    vector<int> B = nums1.size() < nums2.size() ? nums2 : nums1;
-    int totalsize = A.size() + B.size();
-    int half = totalsize /2;
-    int left = 0 , right = A.size() - 1;
-    while (1){
-        int midA = (left + right)/2;
-        int midB = half - midA - 2;
-
-        int leftA = midA >=0 ? A[midA] : numeric_limits<int>::min();
-        int rightA = midA + 1 < A.size() ? A[midA + 1] : numeric_limits<int>::max();
-        int leftB = midB >=0 ? B[midB] : numeric_limits<int>::min();
-        int rightB = midB + 1 < B.size() ? B[midB + 1] : numeric_limits<int>::max();
-
-        if (leftA <= rightB && leftB <= rightA){
-            if (totalsize % 2){
-                {cout << min(rightA,leftB);
-                break;}
-            }else {cout<< (max(leftA,leftB) + min(rightA,rightB))/2;
-            break;}
-
-        }else if (leftA > rightB){
-            right = midA - 1 ;
-        }else left = midA + 1;
-    }
-};
-
-////
-
-
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-    vector<int> A = nums1.size() < nums2.size() ? nums1 : nums2;
-    vector<int> B = nums1.size() < nums2.size() ? nums2 : nums1;
-    int totalsize = A.size() + B.size();
-    int half = totalsize /2;
-    int left = 0 , right = A.size() - 1;
-    while (true){
-        int midA = (left + right)/2;
-        int midB = half - midA - 2;
+    int n1 = nums1.size(), n2 = nums2.size();
+    if (n1 > n2) return findMedianSortedArrays(nums2,nums1);
 
-        int leftA = (midA >= 0) ? A[midA] : INT_MIN;
-        int rightA = (midA + 1 < A.size()) ? A[midA + 1] : INT_MAX;
-        int leftB = (midB >= 0) ? B[midB] : INT_MIN;
-        int rightB = (midB + 1 < B.size()) ? B[midB + 1] : INT_MAX;
+    if (n1 == 0) return n2%2 ? nums2[n2/2] : (nums2[n2/2] + nums2[n2/2 - 1])/2.0;
+    if (n2 == 0) return n1%2 ? nums1[n1/2] : (nums1[n1/2] + nums1[n1/2 - 1])/2.0;
+    
+    int total = n1 + n2;
+    int partition = (total+1) / 2;
+    
+    int left1 = 0, right1 = n1;
+    int cut1,cut2;
+    int l1,l2,r1,r2;
 
-        if (leftA <= rightB && leftB <= rightA){
-            if (totalsize % 2){
-                return min(rightA,leftB);
-            }else return (max(leftA,leftB) + min(rightA,rightB))/2;
+    do {
 
-        }else if (leftA > rightB){
-            right = midA - 1 ;
-        }else left = midA + 1;
-    }
+        cut1 = (left1 + right1) / 2;
+        cut2 = partition - cut1;
+
+        l1 = cut1 == 0 ? INT_MIN : nums1[cut1-1];
+        l2 = cut2 == 0 ? INT_MIN : nums2[cut2-1];
+
+        r1 = cut1 >= n1 ? INT_MAX : nums1[cut1];
+        r2 = cut2 >= n2 ? INT_MAX : nums2[cut2];
+
+        if (l1 <= r2 && l2 <= r1){
+            return ((total%2) ? max (l1,l2) : (max(l1,l2) + min(r1,r2))/2.0);
+        }else{
+            if (l1>r2){
+                right1 = cut1 - 1;
+            }else{
+                left1 = cut1 + 1; 
+            }
+        }
+
+    }while(left1<=right1);
+     return 0.0;
     }
 };
