@@ -5,4 +5,6 @@ class Solution:
         MAX = dp[0]
         for i in range(1,len(nums)):
             dp[i] = max(nums[i]+dp[i-1],nums[i])
-        return max(dp)
+            if dp[i] > MAX:
+                MAX = dp[i]
+        return MAX
