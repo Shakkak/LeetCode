@@ -1,5 +1,5 @@
 # LeetCode
-goal: solving 100
+goal: 100
 
 16/100
 
