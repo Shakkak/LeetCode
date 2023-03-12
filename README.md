@@ -1,8 +1,8 @@
 # LeetCode
 goal: 100
 
-16/100
+21/100
 
-Easy: 11 
-Medium: 3
+Easy: 12 
+Medium: 7
 Hard: 2
