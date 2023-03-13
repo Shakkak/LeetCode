@@ -1,8 +1,8 @@
 # LeetCode
-goal: 100
+goal: 500
 
-21/100
+25/500
 
-Easy: 12 
+Easy: 16 
 Medium: 7
 Hard: 2
